@@ -46,12 +46,57 @@ Pequenas e médias empresas que ainda não possuem um sistema de RH estruturado.
 
 ## Stacks
 
-| Camada          | Tecnologia                    |
-|-----------------|-------------------------------|
-| Backend         | Java + Spring Boot (API REST) |
-| Frontend        | TypeScript + ReactJS          |
-| Banco de Dados  | PostgreSQL                    |
-| Metodologia     | Scrum (Sprints semanais)      |
+| Camada          | Tecnologia                                             |
+|-----------------|--------------------------------------------------------|
+| Backend         | Java + Spring Boot (API REST), Spring Security + JWT   |
+| Frontend        | TypeScript + ReactJS                                   |
+| Banco de Dados  | PostgreSQL                                             |
+| Metodologia     | Scrum (Sprints semanais)                               |
+
+## Backend
+
+O backend está **implementado e funcional**, seguindo uma arquitetura **feature-based** (organização por funcionalidade, não por camada técnica). Cada módulo de negócio concentra sua própria entidade, repositório, service, controller e DTOs:
+
+```
+com.pes_project.gest_rh
+├── auth/            → autenticação, cadastro de usuário e controle de acesso (JWT)
+├── funcionario/     → cadastro, edição, listagem e inativação de funcionários
+├── ausencia/        → registro e histórico de férias e faltas
+├── horas/           → banco de horas (registro e saldo)
+├── dashboard/       → indicadores consolidados de RH
+├── relatorio/       → geração de relatórios
+└── common/
+    ├── security/    → JWT, filtro de autenticação e configuração de segurança
+    └── exception/   → tratamento centralizado de erros
+```
+
+### Endpoints disponíveis
+
+| Método | Rota                          | Descrição                                  |
+|--------|--------------------------------|---------------------------------------------|
+| POST   | `/auth/register`               | Cadastro de usuário                         |
+| POST   | `/auth/login`                  | Login (retorna token JWT)                   |
+| POST   | `/funcionarios`                | Criar funcionário                           |
+| GET    | `/funcionarios`                | Listar funcionários (com busca opcional)    |
+| GET    | `/funcionarios/{id}`           | Detalhe de um funcionário                   |
+| PUT    | `/funcionarios/{id}`           | Editar funcionário                          |
+| DELETE | `/funcionarios/{id}`           | Inativar funcionário (somente ADMIN)        |
+| POST   | `/ausencias`                   | Registrar falta ou férias                   |
+| GET    | `/ausencias`                   | Listar todas as ausências                   |
+| GET    | `/ausencias/funcionario/{id}`  | Histórico de ausências por funcionário      |
+| POST   | `/banco-horas`                 | Registrar horas extras/compensadas          |
+| GET    | `/banco-horas/funcionario/{id}`| Saldo e histórico de banco de horas         |
+| GET    | `/dashboard/indicadores`       | Indicadores consolidados (RH)               |
+| GET    | `/relatorios/funcionarios`     | Relatório de funcionários                   |
+
+Todas as rotas, exceto `/auth/**`, exigem token JWT no header `Authorization: Bearer <token>`.
+
+### Como executar
+
+1. Crie um banco PostgreSQL chamado `gest_rh`.
+2. Configure as credenciais via variáveis de ambiente (`DB_USERNAME`, `DB_PASSWORD`, `JWT_SECRET`) — veja o `.env` na raiz do módulo backend.
+3. Rode `GestRhApplication` (ou `./mvnw spring-boot:run`). O Hibernate cria as tabelas automaticamente na primeira execução.
+4. A API sobe em `http://localhost:8080`.
 
 ## Metodologia
 
@@ -59,30 +104,34 @@ O desenvolvimento segue o framework **Scrum**, com entregas incrementais organiz
 
 ## 👥 Equipe
 
-| Nome            | Contribuições na Sprint 1  |
-|-----------------|----------------------------|
-| Jose Gabriel    |                            |
-| Otávio Henrique |                            |
-| Breno           |                            |
-| Max             |                            |
-
-> **Papéis Scrum:** os papéis de Product Owner, Scrum Master e Dev Team ainda estão sendo formalizados entre os integrantes e serão definidos oficialmente na Sprint 2, conforme apontado na retrospectiva da Sprint 1.
+| Nome            | Cargo (Scrum)   | Contribuições na Sprint 2                              |
+|-----------------|-----------------|----------------------------------------------------------|
+| Jose Gabriel    | Backend / Dev   | Requisitos funcionais e não-funcionais do backend; implementação da API (auth, funcionários, ausências, banco de horas, dashboard) em arquitetura feature-based |
+| Otávio Henrique | Frontend / Dev  | Requisitos funcionais e não-funcionais do frontend |
+| Breno           | Product Owner   | Técnicas de elicitação de requisitos; atualização do Documento de Visão e Escopo |
+| Max             | Scrum Master    | Relatório de Fechamento da Sprint 2; organização da apresentação |
 
 ## Status do Projeto
 
-**Sprint atual:** Sprint 1 — Concepção e Visão do Produto ✅ Concluída
+**Sprint atual:** Sprint 2 — Levantamento e Especificação de Requisitos ✅ Concluída
 
 Entregas realizadas nesta Sprint:
-- [x] Documento de Visão e Escopo
-- [x] Repositório Git criado e configurado
-- [x] Alinhamento inicial da equipe
+- [x] Documento de Requisitos com RF e RNF (backend e frontend)
+- [x] Documento de Visão e Escopo atualizado
+- [x] Papéis Scrum formalizados entre os integrantes
+- [x] API backend implementada em arquitetura feature-based e testada localmente: autenticação (JWT), cadastro de funcionários, férias/faltas, banco de horas e dashboard de indicadores
+- [ ] Telas de frontend integradas à API
 
-Próxima Sprint (Sprint 2): levantamento e especificação de requisitos funcionais e não-funcionais, além da definição formal dos papéis Scrum de cada integrante.
+Sprint anterior (Sprint 1): concepção e visão do produto, com definição do nicho, problema, solução e escopo inicial. ✅ Concluída
+
+Próxima Sprint (Sprint 3): planejamento do produto com Épicos e User Stories no Product Backlog, prototipação de baixa fidelidade das principais telas e início da integração do frontend com a API já disponível.
 
 ## 📄 Documentação
 
-- `docs/Visao_e_Escopo.pdf` — Documento de Visão e Escopo
-- `docs/Relatorio_Sprint_01.pdf` — Relatório de Fechamento da Sprint 1
+- `docs/Visao_e_Escopo.pdf` - Documento de Visão e Escopo
+- `docs/Relatorio_Sprint_01.pdf` - Relatório de Fechamento da Sprint 1
+- `docs/Documento_Requisitos.pdf` - Documento de Requisitos (não implementado)
+- `docs/Relatorio_Sprint_02.pdf` - Relatório de Fechamento da Sprint 2 (não implementado)
 
 ---
 
