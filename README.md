@@ -128,8 +128,8 @@ Próxima Sprint (Sprint 3): planejamento do produto com Épicos e User Stories n
 
 ## 📄 Documentação
 
-- `docs/Visao_e_Escopo.pdf` - Documento de Visão e Escopo
-- `docs/Relatorio_Sprint_01.pdf` - Relatório de Fechamento da Sprint 1
+- `docs/sprint_1/Visao_e_Escopo.pdf` - Documento de Visão e Escopo
+- `docs/sprint_1/Relatorio_Sprint_01.pdf` - Relatório de Fechamento da Sprint 1
 - `docs/Documento_Requisitos.pdf` - Documento de Requisitos (não implementado)
 - `docs/Relatorio_Sprint_02.pdf` - Relatório de Fechamento da Sprint 2 (não implementado)
 
